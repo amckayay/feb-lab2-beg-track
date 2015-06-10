@@ -33,12 +33,18 @@ function assert(expression, failureMessage) {
  someone, it became faster and stronger: adding to its consumption
  rate by 1 person/hour.
 
- persons consumed  |  rate of consumption
- ------------------|---------------------
-        0          |       1/hour
-        1          |       2/hour
-        2          |       3/hour
-        3          |       4/hour
+ hours | persons consumed  |  rate of consumption
+ --------------------------|---------------------
+  1    |        0          |       1/hour
+  2    |        1          |       2/hour
+  3    |        2          |       3/hour
+  4    |        3          |       4/hour
+  5    |        4          |       5/hour
+  6    |        5          |       6/hour
+  7    |        6          |       7/hour
+  8    |        7          |       8/hour
+  9    |        8          |       9/hour
+  10   |        9          |       10/hour
 
  TODO: First, make a constructor function, called Blob, that makes blobs.
 
@@ -48,22 +54,57 @@ function assert(expression, failureMessage) {
  with Dowington.
 */
 
-var hoursSpentInDowington; // TODO: assign me the value of the
-                           // above calculation
+function Blob(rate) {
+  this.rate = rate;
+}
+
+Blob.prototype.consumptionOfDowington = function() {
+  population = 1000;
+  hours = 0;
+
+  while (population > 1) {
+    this.rate++;
+    hours++;
+    population = population - this.rate;
+  }
+
+  return hours;
+};
+
+var blob = new Blob(0);
+var hoursSpentInDowington = blob.consumptionOfDowington();
 
 // Now, write a method that takes a population for an arbitrary
 // town, and the starting consumption rate, and returns the number
 // of hours the blob needs to ooze its way through that town.
 
-function hoursToOoze(population, peoplePerHour) {
+function hoursToOoze(population, rate) {
   // TODO: implement me based on the instructions above. Be sure to then assign me to the Blob's prototype.
+  this.rate = rate;
+  hours = 0;
+
+  while (population > 1) {
+    this.rate++;
+    hours++;
+    population = population - this.rate;
+  }
+
+  return hours;
 }
 
+Blob.prototype.hoursToOoze = hoursToOoze;
+
+var secondBlob = new Blob(0);
+
 assert(blob.hoursToOoze(0, 1) === 0, "no people means no time needed.");
-assert(blob.hoursToOoze(1000, 1) === hoursSpentInDowington,
-  "hoursSpentInDowington should match hoursToOoze\"s result for 1000");
+assert(blob.hoursToOoze(1000, 0) === hoursSpentInDowington,
+  "hoursSpentInDowington should match hoursToOoze\'s result for 1000");
 // TODO: write three more assertions like the two above, testing out
 // the hoursToOoze method.
+assert(secondBlob.hoursToOoze(600, 0) === blob.hoursToOoze(600, 0));
+assert(secondBlob.hoursToOoze(10, 0) === 4);
+assert(blob.hoursToOoze(0, 0) === 0);
+
 
 //*********************************************************
 // PROBLEM 2: Universal Translator. 20 points
@@ -79,9 +120,11 @@ var hello = {
 // sentient beings. They have a home planet, a language that they
 // speak, and method called sayHello.
 
-function SentientBeing () {
+function SentientBeing (planet, language) {
   // TODO: specify a home planet and a language
   // you'll need to add parameters to this constructor
+  this.planet = planet;
+  this.language = language;
 }
 
 // sb is a SentientBeing object
@@ -92,19 +135,35 @@ function sayHello (sb) {
     // use the 'hello' object at the beginning of this exercise
     // to do the translating
 
+    this.sb = sb; // listener
+    console.log(hello[this.language]);
+
+    if (hello[this.sb]) {
+      return hello[this.sb];
+    } else {
+      return hello["federation standard"];
+    }
+
     //TODO: put this on the SentientBeing prototype
   }
 
+SentientBeing.prototype.sayHello = sayHello;
+
 // TODO: create three SentientBeings, one for each language in the
 // 'hello' object above.
-var klingon = new SentientBeing(); // TODO: fix me
-var romulan = new SentientBeing(); // TODO: fix me
-var human = new SentientBeing(); // TODO: fix me
+var klingon = new SentientBeing('Qo"noS', 'klingon'); // TODO: fix me
+var romulan = new SentientBeing('Romulus', 'romulan'); // TODO: fix me
+var human = new SentientBeing('Earth', 'federation standard'); // TODO: fix me
 
-assert((new Human()).sayHello(new Klingon()) === "nuqneH",
-  "the klingon should hear nuqneH");
+assert(human.sayHello('klingon') === "nuqneH", "the klingon should hear nuqneH");
 // TODO: write five more assertions, to complete all the possible
 // greetings between the three types of sentient beings you created above.
+assert(human.sayHello('romulan') === "Jolan\"tru", "human --> romulan fail");
+assert(romulan.sayHello('human') === "hello", "romulan --> human fail");
+assert(romulan.sayHello('klingon') === "nuqneH", "romulan --> klingon fail");
+assert(klingon.sayHello('human') === "hello", "klingon --> human fail");
+assert(klingon.sayHello('romulan') === "Jolan\"tru", "klingon --> romulan fail");
+
 
 //*********************************************************
 // PROBLEM 3: Moar Loops. 20 points.
@@ -114,10 +173,19 @@ assert((new Human()).sayHello(new Klingon()) === "nuqneH",
 //*********************************************************
 function max(array) {
   // TODO: return the largest number in the given array
+
+  this.array = array;
+
+  orderedArray = array.sort(function(a, b){return a-b;});
+  lastItem = orderedArray.pop();
+  return lastItem;
 }
 
 // TODO: write three more assertions
 assert(max([ 1, 3, 2 ]) === 3, "[1,3,2]");
+assert(max([ 1, 12, 43 ]) === 43, "[1,12,43]");
+assert(max([ 56, 9, 2 ]) === 56, "[56,9,2]");
+assert(max([ 18, 3, 4 ]) === 18, "[18,3,4]");
 
 function variablify(string) {
   // TODO: you are given a string with several words in it
@@ -127,11 +195,27 @@ function variablify(string) {
   // you might want to use these string methods:
   //  split(), charAt(), toUpperCase()
   // and this array method: join()
+
+  this.string = string;
+  splitSentence = this.string.split(" ");
+
+  for (i = 1; i < splitSentence.length; i++) {
+    lowercase = splitSentence[i].charAt(0);
+    uppercase = lowercase.toUpperCase();
+    newWord = splitSentence[i].replace(lowercase,uppercase);
+    newArray = splitSentence[i] = newWord;
+    newString = splitSentence.join('');
+    console.log(newString);
+  }
+
+  return newString;
 }
 
 // TODO: write three more assertions
-assert(variablify("one two three") === "oneTwoThree",
-  "variablify(\"one two three\")");
+assert(variablify("one two three") === "oneTwoThree", "variablify(\"one two three\")");
+assert(variablify("hello out there") === "oneTwoThree", "variablify(\"hello out there\")");
+assert(variablify("i love donuts") === "oneTwoThree", "variablify(\"i love donuts\")");
+assert(variablify("pancakes and waffles") === "oneTwoThree", "variablify(\"pancakes and waffles\")");
 
 //*********************************************************
 // PROBLEM 4: Cleanup: 10 points
