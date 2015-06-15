@@ -105,7 +105,6 @@ assert(secondBlob.hoursToOoze(600, 0) === blob.hoursToOoze(600, 0));
 assert(secondBlob.hoursToOoze(10, 0) === 4);
 assert(blob.hoursToOoze(0, 0) === 0);
 
-
 //*********************************************************
 // PROBLEM 2: Universal Translator. 20 points
 //*********************************************************
@@ -151,19 +150,18 @@ SentientBeing.prototype.sayHello = sayHello;
 
 // TODO: create three SentientBeings, one for each language in the
 // 'hello' object above.
-var klingon = new SentientBeing('Qo"noS', 'klingon'); // TODO: fix me
-var romulan = new SentientBeing('Romulus', 'romulan'); // TODO: fix me
-var human = new SentientBeing('Earth', 'federation standard'); // TODO: fix me
+var klingon = new SentientBeing("Qo\"noS", "klingon"); // TODO: fix me
+var romulan = new SentientBeing("Romulus", "romulan"); // TODO: fix me
+var human = new SentientBeing("Earth", "federation standard"); // TODO: fix me
 
-assert(human.sayHello('klingon') === "nuqneH", "the klingon should hear nuqneH");
+assert(human.sayHello("klingon") === "nuqneH", "the klingon should hear nuqneH");
 // TODO: write five more assertions, to complete all the possible
 // greetings between the three types of sentient beings you created above.
-assert(human.sayHello('romulan') === "Jolan\"tru", "human --> romulan fail");
-assert(romulan.sayHello('human') === "hello", "romulan --> human fail");
-assert(romulan.sayHello('klingon') === "nuqneH", "romulan --> klingon fail");
-assert(klingon.sayHello('human') === "hello", "klingon --> human fail");
-assert(klingon.sayHello('romulan') === "Jolan\"tru", "klingon --> romulan fail");
-
+assert(human.sayHello("romulan") === "Jolan\"tru", "human --> romulan fail");
+assert(romulan.sayHello("human") === "hello", "romulan --> human fail");
+assert(romulan.sayHello("klingon") === "nuqneH", "romulan --> klingon fail");
+assert(klingon.sayHello("human") === "hello", "klingon --> human fail");
+assert(klingon.sayHello("romulan") === "Jolan\"tru", "klingon --> romulan fail");
 
 //*********************************************************
 // PROBLEM 3: Moar Loops. 20 points.
@@ -176,7 +174,7 @@ function max(array) {
 
   this.array = array;
 
-  orderedArray = array.sort(function(a, b){return a-b;});
+  orderedArray = array.sort(function(a, b) {return a - b;});
   lastItem = orderedArray.pop();
   return lastItem;
 }
@@ -202,9 +200,9 @@ function variablify(string) {
   for (i = 1; i < splitSentence.length; i++) {
     lowercase = splitSentence[i].charAt(0);
     uppercase = lowercase.toUpperCase();
-    newWord = splitSentence[i].replace(lowercase,uppercase);
+    newWord = splitSentence[i].replace(lowercase, uppercase);
     newArray = splitSentence[i] = newWord;
-    newString = splitSentence.join('');
+    newString = splitSentence.join("");
     console.log(newString);
   }
 
@@ -213,9 +211,9 @@ function variablify(string) {
 
 // TODO: write three more assertions
 assert(variablify("one two three") === "oneTwoThree", "variablify(\"one two three\")");
-assert(variablify("hello out there") === "oneTwoThree", "variablify(\"hello out there\")");
-assert(variablify("i love donuts") === "oneTwoThree", "variablify(\"i love donuts\")");
-assert(variablify("pancakes and waffles") === "oneTwoThree", "variablify(\"pancakes and waffles\")");
+assert(variablify("hello out there") === "helloOutThere", "variablify(\"hello out there\")");
+assert(variablify("i love donuts") === "iLoveDonuts", "variablify(\"i love donuts\")");
+assert(variablify("pancakes and waffles") === "pancakesAndWaffles", "variablify(\"pancakes and waffles\")");
 
 //*********************************************************
 // PROBLEM 4: Cleanup: 10 points
